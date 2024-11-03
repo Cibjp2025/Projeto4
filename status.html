@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status do Conserto</title>
+      <!-- Link para o arquivo CSS -->
+  <link rel="stylesheet" href="index.css">
+  <script>
+    async function carregarStatus() {
+      const response = await fetch('/api/status');
+      const data = await response.json();
+      atualizarTimeline(data.etapa);
+    }
+      function atualizarTimeline(etapa) {
+      const etapas = document.querySelectorAll('.timeline li');
+      etapas.forEach((item) => {
+        const textoEtapa = item.querySelector('summary').innerText;
+        const icon = item.querySelector('.icon');
+        if (textoEtapa === etapa) {
+          icon.classList.add('working');
+        } else if (icon.classList.contains('working')) {
+          icon.classList.remove('working');
+          icon.classList.add('done');
+        }
+      });
+    }
+  
+    document.addEventListener('DOMContentLoaded', carregarStatus);
+  </script>
+  </head>
+<body>
+  <div class="container">
+    <h1>Status do Conserto</h1>
+    <h4>Acompanhe as etapas do conserto da sua máquina de costura</h4>
+    <ul class="timeline">
+      
+      <li class="timeline">
+        <div class="icon done"></div>
+        <details class="panel">
+          <summary>Recebimento da Máquina</summary>
+        </details>
+      </li>
+      
+      <li class="timeline">
+        <div class="icon done"></div>
+        <details class="panel">
+          <summary>Diagnóstico</summary>
+        </details>
+      </li>
+      
+      <li class="timeline">
+        <div class="icon working"></div>
+        <details class="panel">
+          <summary>Aguardando Peças</summary>
+        </details>
+      </li>
+      
+      <li class="timeline">
+        <div class="icon"></div>
+        <details class="panel">
+          <summary>Reparo em Andamento</summary>
+        </details>
+      </li>
+      
+      <li class="timeline">
+        <div class="icon"></div>
+        <details class="panel">
+          <summary>Teste Final</summary>
+        </details>
+      </li>
+      
+      <li class="timeline">
+        <div class="icon"></div>
+        <details class="panel">
+          <summary>Pronto para Retirada</summary>
+        </details>
+      </li>
+      
+      <li class="timeline">
+        <div class="icon"></div>
+        <details class="panel">
+          <summary>Entrega finalizada</summary>
+        </details>
+      </li>
+      
+    </ul>
+  </div>
+</body>
+</html>
